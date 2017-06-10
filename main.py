@@ -5,6 +5,9 @@ from groupy import Bot, config
 
 config.API_KEY = os.getenv('API_KEY')
 
+def interpret(message):
+    bot.post(message)
+
 def listen(port=''):
     try:
         port = int(os.getenv('PORT'))
@@ -25,13 +28,11 @@ def listen(port=''):
             data = json.loads(data.decode('utf-8').split('\n')[-1])
 
             if data['sender_type'] == "user":
-                print(data['text'])
+                interpret(data['text'])
         except:
             pass
 
 
 if __name__ == '__main__':
+    bot = Bot.list().first
     listen()
-
-# bot = Bot.list().first
-# bot.post("bleep bloop, under construction. also, no Thomas here. just bot.")
