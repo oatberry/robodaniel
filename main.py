@@ -5,7 +5,12 @@ from groupy import Bot, config
 
 config.API_KEY = os.getenv('API_KEY')
 
-def listen(port=80):
+def listen(port=''):
+    try:
+        port = os.getenv('PORT')
+    except:
+        port = 5000
+
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
