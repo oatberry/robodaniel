@@ -18,7 +18,7 @@ def listen(port=''):
     s.listen(10)
 
     while True:
-        (connection, address) = serversocket.accept()
+        (connection, address) = s.accept()
 
         try:
             data = connection.recv(1024)
