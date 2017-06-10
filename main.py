@@ -22,11 +22,10 @@ def listen(port=''):
 
         try:
             data = connection.recv(1024)
-            print(data)
-            # data = json.loads(data.decode('utf-8').split('\n')[-1])
+            data = json.loads(data.decode('utf-8').split('\n')[-1])
 
-            # if data['sender_type'] == "user":
-
+            if data['sender_type'] == "user":
+                print(data['text'])
         except:
             pass
 
