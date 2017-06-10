@@ -1,12 +1,13 @@
 import json
 import os
 import socket
+from factoids import factoids
 from groupy import Bot, config
 
 config.API_KEY = os.getenv('API_KEY')
 
-def interpret(message):
-    bot.post(message)
+def interpret(command):
+    bot.post(factoids[command])
 
 def listen(port=''):
     try:
@@ -27,8 +28,8 @@ def listen(port=''):
             data = connection.recv(1024)
             data = json.loads(data.decode('utf-8').split('\n')[-1])
 
-            if data['sender_type'] == "user":
-                interpret(data['text'])
+            if data['sender_type'] == "user" and data['text'][0] == '!':
+                interpret(data['text'][1:])
         except:
             pass
 
