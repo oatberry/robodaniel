@@ -7,7 +7,7 @@ config.API_KEY = os.getenv('API_KEY')
 
 def listen(port=''):
     try:
-        port = os.getenv('PORT')
+        port = int(os.getenv('PORT'))
     except:
         port = 5000
 
