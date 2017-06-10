@@ -6,7 +6,6 @@ from groupy import Bot, config
 config.API_KEY = os.getenv('API_KEY')
 
 def interpret(message):
-    print(message)
     bot.post(message)
 
 def listen(port=''):
