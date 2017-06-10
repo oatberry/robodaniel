@@ -1,0 +1,5 @@
+#
+# robodaniel requirements.txt
+#
+
+GroupyAPI
