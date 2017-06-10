@@ -1,6 +1,7 @@
 from groupy import Bot, config
 
-config.API_KEY="9acd23902f8c0135bcbe01593d258a8d"
+with open('API_KEY.txt', 'r') as f:
+    config.API_KEY = f.readline()
 
 bot = Bot.list().first
-bot.post("bleep boop")
+bot.post("bleep bloop, under construction. also, no Thomas here. just bot.")
