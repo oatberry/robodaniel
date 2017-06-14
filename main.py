@@ -25,17 +25,13 @@ def listen(port=''):
     while True:
         (connection, address) = s.accept()
 
-        try:
-            data = connection.recv(1024)
-            data = json.loads(data.decode('utf-8').split('\n')[-1])
-            print('--> JSON data received: {0}'.format(data))
+        data = connection.recv(1024)
+        data = json.loads(data.decode('utf-8').split('\n')[-1])
+        print('--> JSON data received: {0}'.format(data))
 
-            if data['sender_type'] == "user" and data['text'][0] == '!':
-                print('--> interpreted command: {0}'.format(data['text'][1:]))
-                interpret(data['text'][1:])
-        except:
-            pass
-
+        if data['sender_type'] == "user" and data['text'][0] == '!':
+            print('--> interpreted command: {0}'.format(data['text'][1:]))
+            interpret(data['text'][1:])
 
 if __name__ == '__main__':
     print('--> launching robodaniel...')
