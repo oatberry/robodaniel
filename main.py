@@ -27,11 +27,11 @@ def listen(port=''):
 
         try:
             data = connection.recv(1024)
-            print('DATA: {0}'.format(data))
             data = json.loads(data.decode('utf-8').split('\n')[-1])
+            print('--> JSON data received: {0}'.format(data))
 
             if data['sender_type'] == "user" and data['text'][0] == '!':
-                print('--> received command: {0}'.format(data['text'][1:]))
+                print('--> interpreted command: {0}'.format(data['text'][1:]))
                 interpret(data['text'][1:])
         except:
             pass
