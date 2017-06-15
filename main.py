@@ -1,6 +1,7 @@
 import json
 import os
 import socket
+import traceback
 from factoids import factoids
 from groupy import Bot, config
 
@@ -25,14 +26,17 @@ def listen(port=''):
     while True:
         (connection, address) = s.accept()
 
-        data = connection.recv(1024)
-        print('--> ROBODANIEL: raw data received: {0}'.format(data))
-        data = json.loads(data.decode('utf-8').split('\n')[-1])
-        print('--> ROBODANIEL: json data received: {0}'.format(data))
+        try:
+            data = connection.recv(1024)
+            print('--> ROBODANIEL: raw data received: {0}'.format(data))
+            data = json.loads(data.decode('utf-8').split('\n')[-1])
+            print('--> ROBODANIEL: json data received: {0}'.format(data))
 
-        if data['sender_type'] == "user" and data['text'][0] == '!':
-            print('--> ROBODANIEL: interpreted command: {0}'.format(data['text'][1:]))
-            interpret(data['text'][1:])
+            if data['sender_type'] == "user" and data['text'][0] == '!':
+                print('--> ROBODANIEL: interpreted command: {0}'.format(data['text'][1:]))
+                interpret(data['text'][1:])
+        except Exception:
+            print(traceback.format_exc())
 
 if __name__ == '__main__':
     print('--> ROBODANIEL launching robodaniel...')
