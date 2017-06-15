@@ -12,18 +12,17 @@ factoid_list = list(factoids.keys())
 command_list = dir(commands)
 
 def interpret(command):
-    # interpret command for bot
-    # TODO: more complicated commands
-        if command in command_list:
-            response = eval('commands.' + command)
-        elif command in factoid_list:
-            response = factoids[command]
-        else:
-            robolog('invalid command: {0}'.format(command))
+    # check if command/factoid exists, then run it
+    if command in command_list:
+        response = eval('commands.' + command)
+    elif command in factoid_list:
+        response = factoids[command]
+    else:
+        robolog('invalid command: {0}'.format(command))
 
-        robolog('received command: "{0}"'.format(command))
-        bot.post(response)
-
+    robolog('received command: "{0}"'.format(command))
+    robolog('sending response: "{0}"'.format(response))
+    bot.post(response)
 
 def listen(port=''):
     # heroku provides the port variable for us
