@@ -11,17 +11,22 @@ from groupy import Bot, config
 def interpret(command):
     # interpret command for bot
     # TODO: more complicated commands
-    bot.post(factoids[command])
+    try:
+        response = factoids[command]
+        robolog('received command from user "{0}": {1}'
+                .format(data['text'][1:], data['name']))
+
+        bot.post(factoids[command])
+
+    except:
+        robolog('invalid command: {0}'.format(command))
 
 def listen(port=''):
     # heroku provides the port variable for us
-    try:
-        port = int(os.getenv('PORT'))
-    except:
-        port = 5000
+    port = int(os.getenv('PORT'))
 
     # open the listening socket
-    print('--> ROBODANIEL: opening listener socket...')
+    robolog('opening listener socket on port {0}...'.format(port))
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     s.bind((socket.gethostname(), port))
@@ -34,22 +39,22 @@ def listen(port=''):
 
         try:
             data = connection.recv(1024)
-            print('--> ROBODANIEL: raw data received: {0}'.format(data))
             data = json.loads(data.decode('utf-8').split('\n')[-1])
-            print('--> ROBODANIEL: json data received: {0}'.format(data))
 
             if data['sender_type'] == "user" and data['text'][0] == '!':
-                print('--> ROBODANIEL: interpreted command: {0}'.format(data['text'][1:]))
                 interpret(data['text'][1:])
 
         except Exception:
-            print(traceback.format_exc())
+            pass
+
+def robolog(message):
+    print('--> robodaniel: {0}'.format(message))
 
 if __name__ == '__main__':
     # set api key from env variable instead of ~/.groupy.key
     config.API_KEY = os.getenv('API_KEY')
 
     # set up bot and start listening
-    print('--> ROBODANIEL: launching robodaniel...')
+    robolog('launching robodaniel...')
     bot = Bot.list().first
     listen()
