@@ -4,7 +4,7 @@
 #   intended to be run under heroku
 #
 
-import json, os, socket, traceback
+import json, os, socket, traceback, time
 from factoids import factoids
 from groupy import Bot, config
 
@@ -29,7 +29,7 @@ def listen(port=''):
 
     # attempt to extract chat message text from received data
     while True:
-        (connection, address) = s.accept()
+        time.sleep(0.2)
         (connection, address) = s.accept()
 
         try:
