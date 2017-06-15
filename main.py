@@ -30,6 +30,7 @@ def listen(port=''):
     # attempt to extract chat message text from received data
     while True:
         (connection, address) = s.accept()
+        (connection, address) = s.accept()
 
         try:
             data = connection.recv(1024)
