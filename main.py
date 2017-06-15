@@ -8,15 +8,15 @@ import json, os, socket, time, commands
 from factoids import factoids
 from groupy import Bot, config
 
-factoid_list = list(factoids.keys())
-command_list = dir(commands)
-
 def interpret(command):
     # check if command/factoid exists, then run it
-    if command in command_list:
-        response = eval('commands.' + command + '()')
-    elif command in factoid_list:
+    if command in list(factoids.keys()):
+        # print a factoid
         response = factoids[command]
+    elif command in dir(commands):
+        # run a function from `commands` with arguments
+        f = command.split(' ')
+        response = eval("commands." + f[0] + "(" + str(f[1:]) + ")")
     else:
         robolog('invalid command: {0}'.format(command))
 
