@@ -13,12 +13,11 @@ def interpret(command):
     # TODO: more complicated commands
     try:
         response = factoids[command]
-        robolog('received command from user "{0}": {1}'
-                .format(data['text'][1:], data['name']))
-
+        robolog('received command from user "{0}": {1}'.format(data['text'][1:], data['name']))
         bot.post(factoids[command])
 
     except:
+        print(traceback.format_exc())
         robolog('invalid command: {0}'.format(command))
 
 def listen(port=''):
@@ -34,7 +33,7 @@ def listen(port=''):
 
     # attempt to extract chat message text from received data
     while True:
-        time.sleep(0.2)
+        time.sleep(0.5)
         (connection, address) = s.accept()
 
         try:
