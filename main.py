@@ -4,7 +4,7 @@
 #   intended to be run under heroku
 #
 
-import json, os, socket, traceback, time
+import json, os, socket, time
 from factoids import factoids
 from groupy import Bot, config
 
@@ -13,11 +13,10 @@ def interpret(command):
     # TODO: more complicated commands
     try:
         response = factoids[command]
-        robolog('received command from user "{0}": {1}'.format(data['text'][1:], data['name']))
+        robolog('received command: "{0}"'.format(command))
         bot.post(factoids[command])
 
     except:
-        print(traceback.format_exc())
         robolog('invalid command: {0}'.format(command))
 
 def listen(port=''):
