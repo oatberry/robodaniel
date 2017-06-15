@@ -14,4 +14,4 @@ def help():
 
 def rev(args):
     '''reverse a string of text'''
-    return args[::-1]
+    return ' '.join(i[::-1] for i in args[::-1])

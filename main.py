@@ -19,8 +19,8 @@ def interpret(command):
         f = command.split(' ')
         response = eval("commands." + f[0] + "(" + str(f[1:]) + ")")
     else:
-        # command/factoid not found, post nothing and log an error
-        robolog('invalid command: {0}'.format(command), level='error')
+        # command/factoid not found, post nothing and log a warning
+        robolog('invalid command: {0}'.format(command), level='warning')
         return
 
     robolog('received command: "{0}"'.format(command))
