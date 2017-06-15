@@ -11,20 +11,20 @@ from groupy import Bot, config
 
 def interpret(command):
     # check if command/factoid exists, then run it
-    if command in list(factoids.keys()):
+    if command in list(factoids):
         # print a factoid
         response = factoids[command]
-    elif command.split(' ')[0] in dir(commands):
+    elif command.split()[0] in dir(commands):
         # run a function from `commands` with arguments
-        f = command.split(' ')
-        response = eval("commands." + f[0] + "(" + str(f[1:]) + ")")
+        f = command.split()
+        response = getattr(commands, f[0])(f[1:])
     else:
         # command/factoid not found, post nothing and log a warning
-        robolog('invalid command: {0}'.format(command), level='warn')
+        robolog('invalid command: {}'.format(command), level='warn')
         return
 
-    robolog('received command: "{0}"'.format(command))
-    robolog('sending response: "{0}"'.format(response))
+    robolog('received command: "{}"'.format(command))
+    robolog('sending response: "{}"'.format(response))
 
     return bot.post(response)
 
@@ -34,7 +34,7 @@ def listen(port=''):
     port = int(os.getenv('PORT'))
 
     # open the listening socket
-    robolog('opening listener socket on port {0}...'.format(port))
+    robolog('opening listener socket on port {}...'.format(port))
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     s.bind((socket.gethostname(), port))
@@ -64,11 +64,11 @@ def robolog(message, level='info'):
     end = '\033[0m'
 
     if level == 'info':
-        print(bold + green + '--> INFO: robodaniel: {0}'.format(message) + end)
+        print(bold + green + '--> INFO: robodaniel: {}'.format(message) + end)
     elif level == 'warn':
-        print(bold + yellow + '--> WARNING: robodaniel: {0}'.format(message) + end)
+        print(bold + yellow + '--> WARNING: robodaniel: {}'.format(message) + end)
     elif level == 'error':
-        print(bold + red + '--> ERROR: robodaniel: {0}'.format(message) + end)
+        print(bold + red + '--> ERROR: robodaniel: {}'.format(message) + end)
 
 
 if __name__ == '__main__':
