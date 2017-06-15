@@ -4,20 +4,26 @@
 #   intended to be run under heroku
 #
 
-import json, os, socket, time
+import json, os, socket, time, commands
 from factoids import factoids
 from groupy import Bot, config
+
+factoid_list = list(factoids.keys())
+command_list = dir(commands)
 
 def interpret(command):
     # interpret command for bot
     # TODO: more complicated commands
-    try:
-        response = factoids[command]
-        robolog('received command: "{0}"'.format(command))
-        bot.post(factoids[command])
+        if command in command_list:
+            response = eval('commands.' + command)
+        elif command in factoid_list:
+            response = factoids[command]
+        else:
+            robolog('invalid command: {0}'.format(command))
 
-    except:
-        robolog('invalid command: {0}'.format(command))
+        robolog('received command: "{0}"'.format(command))
+        bot.post(response)
+
 
 def listen(port=''):
     # heroku provides the port variable for us
