@@ -5,7 +5,7 @@
 def help(args):
     '[command]: show available factoids and commands or help for a specific command'
     from factoids import factoids
-    import commands, sys, re
+    import commands, re
 
     factoid_list = list(factoids)
     command_list = [i for i in dir(commands) if not re.match('^__', i)]
@@ -13,7 +13,7 @@ def help(args):
     if len(args) == 0:
         return 'list of factoids: {}\nlist of commands: {}'.format(factoid_list, command_list)
     else:
-        return args[0] + ' ' + getattr(getattr(sys.modules['commands'], arg[0]), '__doc__')
+        return args[0] + ' ' + eval(args[0] + '.__doc__')
 
 def rev(args):
     '<string>: reverse a string of text'
