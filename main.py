@@ -8,9 +8,6 @@ import json, os, socket, traceback
 from factoids import factoids
 from groupy import Bot, config
 
-# set api key from env variable instead of ~/.groupy.key
-config.API_KEY = os.getenv('API_KEY')
-
 def interpret(command):
     # interpret command for bot
     # TODO: more complicated commands
@@ -43,14 +40,15 @@ def listen(port=''):
             if data['sender_type'] == "user" and data['text'][0] == '!':
                 print('--> ROBODANIEL: interpreted command: {0}'.format(data['text'][1:]))
                 interpret(data['text'][1:])
+
         except Exception:
             print(traceback.format_exc())
 
-def main():
+if __name__ == '__main__':
+    # set api key from env variable instead of ~/.groupy.key
+    config.API_KEY = os.getenv('API_KEY')
+
     # set up bot and start listening
     print('--> ROBODANIEL: launching robodaniel...')
     bot = Bot.list().first
     listen()
-
-if __name__ == '__main__':
-    main()
