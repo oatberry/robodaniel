@@ -1,28 +1,36 @@
-import json
-import os
-import socket
-import traceback
+#
+#   robodaniel - a silly groupme robot
+#   by oatberry - released under the MIT license
+#   intended to be run under heroku
+#
+
+import json, os, socket, traceback
 from factoids import factoids
 from groupy import Bot, config
 
+# set api key from env variable instead of ~/.groupy.key
 config.API_KEY = os.getenv('API_KEY')
 
 def interpret(command):
+    # interpret command for bot
+    # TODO: more complicated commands
     bot.post(factoids[command])
 
 def listen(port=''):
+    # heroku provides the port variable for us
     try:
         port = int(os.getenv('PORT'))
     except:
         port = 5000
 
-    print('--> opening listener socket...')
+    # open the listening socket
+    print('--> ROBODANIEL: opening listener socket...')
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     s.bind((socket.gethostname(), port))
     s.listen(10)
 
+    # attempt to extract chat message text from received data
     while True:
         (connection, address) = s.accept()
 
@@ -38,7 +46,11 @@ def listen(port=''):
         except Exception:
             print(traceback.format_exc())
 
-if __name__ == '__main__':
-    print('--> ROBODANIEL launching robodaniel...')
+def main():
+    # set up bot and start listening
+    print('--> ROBODANIEL: launching robodaniel...')
     bot = Bot.list().first
     listen()
+
+if __name__ == '__main__':
+    main()
