@@ -8,21 +8,26 @@ import json, os, socket, time, commands
 from factoids import factoids
 from groupy import Bot, config
 
+
 def interpret(command):
     # check if command/factoid exists, then run it
     if command in list(factoids.keys()):
         # print a factoid
         response = factoids[command]
-    elif command in dir(commands):
+    elif command.split(' ')[0] in dir(commands):
         # run a function from `commands` with arguments
         f = command.split(' ')
         response = eval("commands." + f[0] + "(" + str(f[1:]) + ")")
     else:
-        robolog('invalid command: {0}'.format(command))
+        # command/factoid not found, post nothing and log an error
+        robolog('invalid command: {0}'.format(command), level='error')
+        return
 
     robolog('received command: "{0}"'.format(command))
     robolog('sending response: "{0}"'.format(response))
-    bot.post(response)
+
+    return bot.post(response)
+
 
 def listen(port=''):
     # heroku provides the port variable for us
@@ -50,8 +55,21 @@ def listen(port=''):
         except Exception:
             pass
 
-def robolog(message):
-    print('--> robodaniel: {0}'.format(message))
+
+def robolog(message, level='info'):
+    bold = '\033[1m'
+    green = '\033[92m'
+    yellow = '\033[93m'
+    red = '\033[91m'
+    end = '\033[0m'
+
+    if level == 'info':
+        print(bold + green + '--> INFO: robodaniel: {0}'.format(message) + end)
+    elif level == 'warn':
+        print(bold + yellow + '--> WARNING: robodaniel: {0}'.format(message) + end)
+    elif level == 'error':
+        print(bold + red + '--> ERROR: robodaniel: {0}'.format(message) + end)
+
 
 if __name__ == '__main__':
     # set api key from env variable instead of ~/.groupy.key
