@@ -14,7 +14,7 @@ command_list = dir(commands)
 def interpret(command):
     # check if command/factoid exists, then run it
     if command in command_list:
-        response = eval('commands.' + command)
+        response = eval('commands.' + command + '()')
     elif command in factoid_list:
         response = factoids[command]
     else:
