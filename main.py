@@ -32,11 +32,11 @@ def listen(port=''):
 
     # attempt to extract chat message text from received data
     while True:
-        time.sleep(0.5)
+        time.sleep(0.3)
         (connection, address) = s.accept()
 
         try:
-            data = connection.recv(1024)
+            data = connection.recv(4096)
             robolog('raw data: {0}'.format(data))
             data = json.loads(data.decode('utf-8').split('\n')[-1])
             robolog('json message data: {0}'.format(data))
