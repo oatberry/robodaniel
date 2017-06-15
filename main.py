@@ -37,9 +37,7 @@ def listen(port=''):
         try:
             time.sleep(0.3)
             data = connection.recv(4096)
-            robolog('raw data: {0}'.format(data))
             data = json.loads(data.decode('utf-8').split('\n')[-1])
-            robolog('json message data: {0}'.format(data))
 
             if data['sender_type'] == "user" and data['text'][0] == '!':
                 interpret(data['text'][1:])
