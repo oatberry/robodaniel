@@ -13,7 +13,7 @@ def help(args):
     if len(args) == 0:
         return 'list of factoids: {0}\nlist of commands: {1}'.format(factoid_list, command_list)
     else:
-        return args[0] + ' ' + args[0].__doc__
+        return args[0] + ' ' + eval(args[0] + '.__doc__')
 
 def rev(args):
     '''<string>: reverse a string of text'''
