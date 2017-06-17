@@ -69,5 +69,5 @@ if __name__ == '__main__':
 
     # set up bot and start listening
     logging.info('launching robodaniel...')
-    bot = Bot.list().first
+    bot = Bot.list().filter(name='RoboDaniel').first
     listen()
