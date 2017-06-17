@@ -14,7 +14,7 @@ def interpret(message):
     # check if command/factoid exists, then run it
     if command in list(factoids):
         # print a factoid
-        response = factoids[command]
+        response = [factoids[command]]
     elif command.split()[0] in dir(commands):
         # run a function from `commands` with arguments
         args = command.split()
@@ -30,7 +30,7 @@ def interpret(message):
     logging.info('interpreted command: "{}"'.format(command))
     logging.info('sending response: "{}"'.format(response))
 
-    return bot.post(response)
+    return bot.post(*response)
 
 
 def listen(port=''):
