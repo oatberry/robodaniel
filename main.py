@@ -5,7 +5,7 @@
 #
 
 import commands, json, logging, os, socket, sys, time
-from factoids import factoids
+from data.factoids import factoids
 from groupy import Bot, config
 
 

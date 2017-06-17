@@ -10,7 +10,7 @@ def compliment(args, sender, sender_id, attachments):
 
 def help(args, sender, sender_id, attachments):
     '[command]: show available factoids and commands or help for a specific command'
-    from factoids import factoids
+    from data.factoids import factoids
     import commands, re
 
     factoid_list = list(factoids)
