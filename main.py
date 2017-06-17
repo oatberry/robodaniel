@@ -9,15 +9,18 @@ from factoids import factoids
 from groupy import Bot, config
 
 
-def interpret(command):
+def interpret(message):
+    command = message['text'][1:]
     # check if command/factoid exists, then run it
     if command in list(factoids):
         # print a factoid
         response = factoids[command]
     elif command.split()[0] in dir(commands):
         # run a function from `commands` with arguments
-        f = command.split()
-        response = getattr(commands, f[0])(*f[1:])
+        args = command.split()
+        response = getattr(commands, args[0])(args=args[1:],
+                                              sender=message['name'],
+                                              sender_id=message['user_id'])
     else:
         # command/factoid not found, post nothing and log a warning
         logging.warning('invalid command: {}'.format(command))
@@ -47,12 +50,12 @@ def listen(port=''):
         try:
             time.sleep(0.3)
             data = connection.recv(4096)
-            data = json.loads(data.decode('utf-8').split('\n')[-1])
+            message = json.loads(data.decode('utf-8').split('\n')[-1])
 
-            if data['sender_type'] == 'user':
-                logging.info('message received: {}'.format(data))
-                if data['text'][0] == '!':
-                    interpret(data['text'][1:])
+            if message['sender_type'] == 'user':
+                logging.info('message received: {}'.format(message))
+                if message['text'][0] == '!':
+                    interpret(message)
 
         except Exception:
             pass
