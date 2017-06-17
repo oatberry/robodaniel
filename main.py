@@ -48,10 +48,11 @@ def listen(port=''):
             time.sleep(0.3)
             data = connection.recv(4096)
             data = json.loads(data.decode('utf-8').split('\n')[-1])
-            logging.info('message received: {}'.format(data))
 
-            if data['sender_type'] == 'user' and data['text'][0] == '!':
-                interpret(data['text'][1:])
+            if data['sender_type'] == 'user':
+                logging.info('message received: {}'.format(data))
+                if data['text'][0] == '!':
+                    interpret(data['text'][1:])
 
         except Exception:
             pass
