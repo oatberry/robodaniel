@@ -2,7 +2,13 @@
 # commands (not just factoids!) for robodaniel
 #
 
-def help(args, sender, sender_id):
+def compliment(args, sender, sender_id, attachments):
+    '<person>: send someone a compliment!'
+    from data.compliments import compliments
+    import random
+    return random.choice(compliments)
+
+def help(args, sender, sender_id, attachments):
     '[command]: show available factoids and commands or help for a specific command'
     from factoids import factoids
     import commands, re
@@ -15,6 +21,6 @@ def help(args, sender, sender_id):
     else:
         return args[0] + ' ' + eval(args[0] + '.__doc__')
 
-def rev(args, sender, sender_id):
+def rev(args, sender, sender_id, attachments):
     '<string>: reverse a string of text'
     return ' '.join(i[::-1] for i in args[::-1])

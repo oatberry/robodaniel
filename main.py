@@ -20,7 +20,8 @@ def interpret(message):
         args = command.split()
         response = getattr(commands, args[0])(args=args[1:],
                                               sender=message['name'],
-                                              sender_id=message['user_id'])
+                                              sender_id=message['user_id'],
+                                              attachments=message['attachments'])
     else:
         # command/factoid not found, post nothing and log a warning
         logging.warning('invalid command: {}'.format(command))
