@@ -10,7 +10,7 @@ compliments = ["your smile is contagious.",
                "you have the best laugh.",
                "I appreciate you.",
                "you are the most perfect you there is.",
-               "you're an awesome friend."
+               "you're an awesome friend.",
                "you light up the room",
                "you deserve a hug.",
                "you should be pround of yourself!",
