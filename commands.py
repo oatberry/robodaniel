@@ -17,7 +17,7 @@ def compliment(args, sender, sender_id, mentions, bot):
     group = Group.list().filter(id=bot.group_id).first
     nickname = group.members().filter(user_id=user_id).first.nickname
 
-    mention = attachments.Mentions([user_id], [[0, len(nickname)+1]])
+    mention = attachments.Mentions([user_id], [[0, len(nickname)+1]]).as_dict()
     message = '@{}: {}'.format(nickname, random.choice(compliments))
     
     return [message, mention]
