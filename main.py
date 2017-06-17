@@ -4,7 +4,7 @@
 #   intended to be run under heroku
 #
 
-import json, os, socket, time, commands
+import commands, json, logging, os, socket, sys, time
 from factoids import factoids
 from groupy import Bot, config
 
@@ -20,11 +20,11 @@ def interpret(command):
         response = getattr(commands, f[0])(f[1:])
     else:
         # command/factoid not found, post nothing and log a warning
-        robolog('invalid command: {}'.format(command), level='warn')
+        logging.warning('invalid command: {}'.format(command))
         return
 
-    robolog('received command: "{}"'.format(command))
-    robolog('sending response: "{}"'.format(response))
+    logging.info('received command: "{}"'.format(command))
+    logging.info('sending response: "{}"'.format(response))
 
     return bot.post(response)
 
@@ -34,7 +34,7 @@ def listen(port=''):
     port = int(os.getenv('PORT'))
 
     # open the listening socket
-    robolog('opening listener socket on port {}...'.format(port))
+    logging.info('opening listener socket on port {}...'.format(port))
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     s.bind((socket.gethostname(), port))
@@ -56,26 +56,16 @@ def listen(port=''):
             pass
 
 
-def robolog(message, level='info'):
-    bold = '\033[1m'
-    green = '\033[92m'
-    yellow = '\033[93m'
-    red = '\033[91m'
-    end = '\033[0m'
-
-    if level == 'info':
-        print(bold + green + '--> INFO: robodaniel: {}'.format(message) + end)
-    elif level == 'warn':
-        print(bold + yellow + '--> WARNING: robodaniel: {}'.format(message) + end)
-    elif level == 'error':
-        print(bold + red + '--> ERROR: robodaniel: {}'.format(message) + end)
-
-
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO, format="--> %(levelname)s: %(message)s")
+
     # set api key from env variable instead of ~/.groupy.key
     config.API_KEY = os.getenv('API_KEY')
+    if not config.API_KEY:
+        logging.error('API_KEY environment variable not set. aborting...')
+        sys.exit()
 
     # set up bot and start listening
-    robolog('launching robodaniel...')
+    logging.info('launching robodaniel...')
     bot = Bot.list().first
     listen()
