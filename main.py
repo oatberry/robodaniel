@@ -17,7 +17,7 @@ def interpret(command):
     elif command.split()[0] in dir(commands):
         # run a function from `commands` with arguments
         f = command.split()
-        response = getattr(commands, f[0])(f[1:])
+        response = getattr(commands, f[0])(*f[1:])
     else:
         # command/factoid not found, post nothing and log a warning
         logging.warning('invalid command: {}'.format(command))

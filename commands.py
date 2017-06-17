@@ -2,7 +2,7 @@
 # commands (not just factoids!) for robodaniel
 #
 
-def help(args):
+def help(*args):
     '[command]: show available factoids and commands or help for a specific command'
     from factoids import factoids
     import commands, re
@@ -15,6 +15,6 @@ def help(args):
     else:
         return args[0] + ' ' + eval(args[0] + '.__doc__')
 
-def rev(args):
+def rev(*args):
     '<string>: reverse a string of text'
     return ' '.join(i[::-1] for i in args[::-1])
