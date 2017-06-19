@@ -31,7 +31,7 @@ def help(args, sender, sender_id, attachments, bot):
     if len(args) == 0:
         return ['list of factoids: {}\nlist of commands: {}'.format(factoid_list, command_list)]
     else:
-        return ['> {} {}'.format(args[0], eval(args[0] + '.__doc__'))]
+        return ['> !{} {}'.format(args[0], eval(args[0] + '.__doc__'))]
 
 def insult(args, sender, sender_id, attachments, bot):
     '[person]: sendeth some lout a shakespearean fig!'
