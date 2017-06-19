@@ -11,14 +11,14 @@ from groupy import Bot, config
 
 def interpret(message):
     command = message['text'][1:]
+    # put a precautionary space before each '@'
+    # GroupMe does weird stuff with mentions
+    command = re.sub('@', ' @', command)
     # check if command/factoid exists, then run it
     if command in list(factoids):
         # print a factoid
         response = [factoids[command]]
     elif command.split()[0] in dir(commands):
-        # put a precautionary space before each '@'
-        # GroupMe does weird stuff with mentions
-        command = re.sub('@', ' @', command)
         # run a function from `commands` with arguments
         args = command.split()
         response = getattr(commands, args[0])(args[1:],                 # command and  command arguments
