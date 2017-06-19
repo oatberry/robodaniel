@@ -2,25 +2,19 @@
 # commands (not just factoids!) for robodaniel
 #
 
-def compliment(args, sender, sender_id, mentions, bot):
+def compliment(args, sender, sender_id, attachments, bot):
     '[person]: send someone a compliment!'
     from data.compliments import compliments
-    from groupy import Group, attachments
     import random
 
-    # construct a mention for the target user
     try:
-        user_id = mentions[0]['user_ids'][0]
+        user_id = attachments[0]['user_ids'][0]
     except:
         return [random.choice(compliments)]
 
-    group = Group.list().filter(id=bot.group_id).first
-    nickname = group.members().filter(user_id=user_id).first.nickname
-
-    mention = attachments.Mentions([user_id], [[0, len(nickname)+1]]).as_dict()
-    message = '@{}: {}'.format(nickname, random.choice(compliments))
+    compliment = random.choice(compliments)
     
-    return [message, mention]
+    return give(attachments[0]['user_ids'][0], compliment, bot)
 
 def help(args, sender, sender_id, attachments, bot):
     '[command]: show available factoids and commands or help for a specific command'
