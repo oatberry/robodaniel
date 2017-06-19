@@ -42,8 +42,7 @@ def insult(args, sender, sender_id, attachments, bot):
     
     insult = 'Thou {} {} {}!'.format(random.choice(insults.part_1),
                                      random.choice(insults.part_2),
-                                     random.choice(insults.part_3),
-                                     random.choice(insults.part_4))
+                                     random.choice(insults.part_3))
     return give(mentions[0]['user_ids'][0], insult, bot)
 
 def rev(args, sender, sender_id, attachments, bot):
