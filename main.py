@@ -18,11 +18,11 @@ def interpret(message):
     elif command.split()[0] in dir(commands):
         # run a function from `commands` with arguments
         args = command.split()
-        response = getattr(commands, args[0])(args[1:],
-                                              message['name'],
-                                              message['user_id'],
-                                              message['attachments'],
-                                              bot)
+        response = getattr(commands, args[0])(args[1:],                 # command and  command arguments
+                                              message['name'],          # nickname of sender
+                                              message['user_id'],       # user id of sender
+                                              message['attachments'],   # attachments of message
+                                              bot)                      # bot object
     else:
         # command/factoid not found, post nothing and log a warning
         logging.warning('invalid command: {}'.format(command))

@@ -2,7 +2,7 @@
 # list of compliments
 #
 
-compliments = ["your smile is contagious.",
+compliments = ("your smile is contagious.",
                "you look great today!",
                "you're a smart cookie.",
                "you have impeccable manners.",
@@ -47,4 +47,4 @@ compliments = ["your smile is contagious.",
                "I bet you do crossword puzzles in ink.",
                "you're someone's reason to smile.",
                "you're even better than a unicorn, because you're real.",
-               "you're really something special" ]
+               "you're really something special")

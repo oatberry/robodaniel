@@ -35,6 +35,17 @@ def help(args, sender, sender_id, attachments, bot):
     else:
         return [args[0] + ' ' + eval(args[0] + '.__doc__')]
 
+def insult(args, sender, sender_id, attachments, bot):
+    '[person]: sendeth some lout a shakespearean fig!'
+    import data.insults as insults
+    from helpers.py import give
+    
+    insult = 'Thou {} {} {}!'.format(random.choice(insults.part_1),
+                                     random.choice(insults.part_2),
+                                     random.choice(insults.part_3),
+                                     random.choice(insults.part_4))
+    return give(mentions[0]['user_ids'][0], insult, bot)
+
 def rev(args, sender, sender_id, attachments, bot):
     '<string>: reverse a string of text'
     return [' '.join(i[::-1] for i in args[::-1])]
