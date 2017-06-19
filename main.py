@@ -67,7 +67,9 @@ def listen(port=''):
 
 
 if __name__ == '__main__':
+    # set up logging
     logging.basicConfig(level=logging.INFO, format="--> %(levelname)s: %(message)s")
+    logging.getLogger('requests').setLevel(logging.WARNING) # quiet down, requests!
 
     # set api key from env variable instead of ~/.groupy.key
     config.API_KEY = os.getenv('API_KEY')
