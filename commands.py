@@ -38,7 +38,7 @@ def help(args, sender, sender_id, attachments, bot):
 def insult(args, sender, sender_id, attachments, bot):
     '[person]: sendeth some lout a shakespearean fig!'
     import data.insults as insults
-    from helpers.py import give
+    from helpers import give
     
     insult = 'Thou {} {} {}!'.format(random.choice(insults.part_1),
                                      random.choice(insults.part_2),
