@@ -18,7 +18,7 @@ def interpret(message):
     elif command.split()[0] in dir(commands):
         # put a precautionary space before each '@'
         # GroupMe does weird stuff with mentions
-        re.sub('@', ' @', command)
+        command = re.sub('@', ' @', command)
         # run a function from `commands` with arguments
         args = command.split()
         response = getattr(commands, args[0])(args[1:],                 # command and  command arguments
