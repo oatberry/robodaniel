@@ -37,13 +37,13 @@ def help(args, sender, sender_id, attachments, bot):
 
 def insult(args, sender, sender_id, attachments, bot):
     '[person]: sendeth some lout a shakespearean fig!'
-    import data.insults as insults
+    import data.insults as insults, random
     from helpers import give
     
     insult = 'Thou {} {} {}!'.format(random.choice(insults.part_1),
                                      random.choice(insults.part_2),
                                      random.choice(insults.part_3))
-    return give(mentions[0]['user_ids'][0], insult, bot)
+    return give(attachments[0]['user_ids'][0], insult, bot)
 
 def rev(args, sender, sender_id, attachments, bot):
     '<string>: reverse a string of text'
