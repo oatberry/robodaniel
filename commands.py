@@ -48,6 +48,21 @@ def insult(args, sender, sender_id, attachments, bot):
 
     return give(user_id, insult, bot)
 
+def meme(args, sender, sender_id, attachments, bot):
+    ': get a random viral meme from the last week off of imgur'
+    import random, requests
+
+    memes = []
+    headers = {'authorization': 'Client-ID ' + os.getenv('IMGUR_ID')}
+
+    for i in range(3): # fetch 3 'pages' of memes
+        url = 'https://api.imgur.com/3/g/memes/viral/week/' + str(i)
+        response = requests.request("GET", url, headers=headers)
+        memes.extend(response.json()['data'])
+
+    image_url = random.choice(memes)['link']
+    return [image_url]
+
 def rev(args, sender, sender_id, attachments, bot):
     '<string>: reverse a string of text'
     return [' '.join(i[::-1] for i in args[::-1])]
