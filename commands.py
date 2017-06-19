@@ -50,7 +50,7 @@ def insult(args, sender, sender_id, attachments, bot):
 
 def meme(args, sender, sender_id, attachments, bot):
     ': get a random viral meme from the last week off of imgur'
-    import random, requests
+    import os, random, requests
 
     memes = []
     headers = {'authorization': 'Client-ID ' + os.getenv('IMGUR_ID')}
