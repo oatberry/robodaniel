@@ -112,7 +112,6 @@ if not config.API_KEY:
     sys.exit()
 
 bot = Bot.list().filter(name='RoboDaniel').first
-botpost = bot.post
 
 
 if __name__ == '__main__':
