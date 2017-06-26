@@ -1,2 +1,2 @@
-(?i).*(shit|fuck|damn|bitch|crap|piss|darn).*       watch your profamity!
+(?i).*(shit|fuck|damn|bitch|crap|piss|darn).*       http://imgur.com/K3e2x2N
 (?i).*I'm.*                                         not only that, you're terrific!
