@@ -28,7 +28,7 @@ def match_trigger(triggers, message):
 
     if message['text'][0] == '!':
         # message contains a !command; interpret it
-        logging.info('interpreted command: "{}"'.format(command))
+        logging.info('interpreted command: "{}"'.format(message['text']))
         response = interpret(message)
     else:
         # try each trigger rule
