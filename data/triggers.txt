@@ -1,2 +1,2 @@
-.*(shit|fuck|damn|bitch|crap|piss|darn).*       watch your profamity!
-.*I'm.*                                         not only that, you're terrific!
+(?i).*(shit|fuck|damn|bitch|crap|piss|darn).*       watch your profamity!
+(?i).*I'm.*                                         not only that, you're terrific!

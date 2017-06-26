@@ -29,9 +29,16 @@ def help(args, sender, sender_id, attachments, bot):
     # get lists of all available factoids and commands
     factoid_list = list(factoids)
     command_list = [i for i in dir(commands) if not re.match('^__', i)]
+    trigger_list = []
+
+    with open('data/triggers.txt') as triggers_file:
+        for rule in triggers_file:
+            trigger_list.append(rule.split()[0])
 
     if len(args) == 0:
-        return ['list of factoids: {}\nlist of commands: {}'.format(factoid_list, command_list)]
+        return ['list of factoids: {}\nlist of commands: {}\nlist of triggers: {}'.format(factoid_list,
+                                                                                          command_list,
+                                                                                          trigger_list)]
     else:
         return ['> !{} {}'.format(args[0], eval(args[0] + '.__doc__'))]
 
