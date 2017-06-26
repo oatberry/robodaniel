@@ -95,7 +95,7 @@ def listen():
 
             if message['sender_type'] == 'user':
                 logging.info('message received: {}'.format(message))
-                match_trigger(message, triggers) # try to match all messages against known triggers
+                match_trigger(triggers, message) # try to match all messages against known triggers
 
         except Exception:
             pass
