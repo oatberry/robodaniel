@@ -10,8 +10,9 @@ from groupy import Bot, config
 
 
 def generate_triggers():
-    triggers = []
+    'regex-compile trigger rules into readily available bits'
 
+    triggers = []
     with open('data/triggers.txt') as triggers_file:
         for rule in triggers_file:
             trigger = rule.split()
@@ -24,8 +25,9 @@ def generate_triggers():
 
 
 def match_trigger(triggers, message):
-    response = None
+    'check if a message begins with "!" or matches a trigger rule'
 
+    response = None
     if message['text'][0] == '!':
         # message contains a !command; interpret it
         logging.info('interpreted command: "{}"'.format(message['text']))
@@ -48,10 +50,13 @@ def match_trigger(triggers, message):
 
 
 def interpret(message):
+    'decide what to do with a "!command" message'
+    # extract the message text, minus the beginning '!'
     command = message['text'][1:]
-    # put a precautionary space before each '@'
-    # GroupMe does weird stuff with mentions
+
+    # put a precautionary space before each '@'; GroupMe does weird stuff with mentions
     command = re.sub('@', ' @', command)
+
     # check if command/factoid exists, then run it
     if command in list(factoids):
         # print a factoid
@@ -70,6 +75,8 @@ def interpret(message):
 
 
 def listen():
+    "listen for new messages in the bot's groupme channel"
+
     # heroku provides the port variable for us
     port = int(os.getenv('PORT')) or 5000
 
@@ -95,7 +102,7 @@ def listen():
 
             if message['sender_type'] == 'user':
                 logging.info('message received: {}'.format(message))
-                match_trigger(triggers, message) # try to match all messages against known triggers
+                match_trigger(triggers, message) # try to match all messages against triggers
 
         except Exception:
             pass
@@ -111,10 +118,11 @@ if not config.API_KEY:
     logging.error('API_KEY environment variable not set. aborting...')
     sys.exit()
 
+# set up bot
 bot = Bot.list().filter(name='RoboDaniel').first
 
 
 if __name__ == '__main__':
-    # set up bot and start listening
+    # start listening and interpreting
     logging.info('launching robodaniel...')
     listen()

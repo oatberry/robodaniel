@@ -10,14 +10,16 @@ def compliment(args, sender, sender_id, attachments, bot):
     from helpers import give
     import random
 
-    compliment = random.choice(compliments)
+    compliment = random.choice(compliments) # choose a random compliment
 
     try:
+        # attempt to extract target user from message
         user_id = attachments[0]['user_ids'][0]
     except:
-        return [compliment] # send a compliment anyway if no name is given
+        # send a compliment anyway if no name is given
+        return [compliment]
 
-    # use give() helper function to construct a mention
+    # use give() helper function to construct a groupme mention
     return give(user_id, compliment, bot)
 
 
@@ -31,19 +33,23 @@ def help(args, sender, sender_id, attachments, bot):
     command_list = [i for i in dir(commands) if not re.match('^__', i)]
 
     if len(args) == 0:
+        # return list of factoids and commands
         return ['list of factoids: {}\nlist of commands: {}'.format(factoid_list, command_list)]
     else:
+        # return help for a specific command
         return ['> !{} {}'.format(args[0], eval(args[0] + '.__doc__'))]
 
 
 def insult(args, sender, sender_id, attachments, bot):
     '[person]: sendeth some lout a shakespearean fig!'
-    import data.insults as insults, random
+    import data.insults as insults
     from helpers import give
+    from random import choice as rand
     
-    insult = 'thou {} {} {}!'.format(random.choice(insults.part_1),
-                                     random.choice(insults.part_2),
-                                     random.choice(insults.part_3))
+    # construct a random insult
+    insult = 'thou {} {} {}!'.format(rand(insults.part_1),
+                                     rand(insults.part_2),
+                                     rand(insults.part_3))
     try:
         user_id = attachments[0]['user_ids'][0]
     except:
@@ -64,10 +70,15 @@ def meme(args, sender, sender_id, attachments, bot):
         response = requests.request("GET", url, headers=headers)
         memes.extend(response.json()['data'])
 
+    # choose a random meme from the list
     image_url = random.choice(memes)['link']
+
     return [image_url]
 
 
 def rev(args, sender, sender_id, attachments, bot):
     '<string>: reverse a string of text'
+
+    # since the command sent by the user is a list of words, we have to reverse
+    # each word and the whole list
     return [' '.join(i[::-1] for i in args[::-1])]
