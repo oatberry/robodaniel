@@ -44,9 +44,6 @@ def match_trigger(triggers, message):
         # we have a response to print!
         logging.info('sending response: "{}"'.format(response))
         bot.post(*response)
-    else:
-        # message matches no triggers, do nothing
-        return 
 
 
 def interpret(message):
