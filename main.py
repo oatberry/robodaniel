@@ -6,7 +6,7 @@
 
 import commands, json, logging, os, re, socket, sys, time
 from data.factoids import factoids
-from groupy import Bot, config
+from groupy import Bot, Group, config
 
 
 def generate_triggers():
@@ -117,6 +117,8 @@ if not config.API_KEY:
 
 # set up bot
 bot = Bot.list().filter(name='RoboDaniel').first
+# get group that bot is in
+group = Group.list().filter(id=bot.group_id).first
 
 
 if __name__ == '__main__':
