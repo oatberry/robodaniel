@@ -87,4 +87,9 @@ def rev(args, sender, sender_id, attachments, bot):
 def triggers(args, sender, sender_id, attachments, bot):
     ': list trigger rules'
     
-    return ['\n'.join(i[0].pattern for i in triggers)]
+    patterns = []
+    with open('data/triggers.txt') as triggers_file:
+        for rule in triggers_file:
+            patterns.append(rule.split()[0])
+
+    return ['\n'.join(patterns)]
