@@ -82,3 +82,9 @@ def rev(args, sender, sender_id, attachments, bot):
     # since the command sent by the user is a list of words, we have to reverse
     # each word and the whole list
     return [' '.join(i[::-1] for i in args[::-1])]
+
+
+def triggers(args, sender, sender_id, attachments, bot):
+    ': list trigger rules'
+    
+    return ['\n'.join(i[0].pattern for i in triggers)]
