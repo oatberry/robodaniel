@@ -74,15 +74,12 @@ def interpret(message):
         return False
 
 
-def listen():
+def listen(triggers):
     "listen for new messages in the bot's groupme channel"
 
     # heroku provides the port variable for us
     port = int(os.getenv('PORT')) or 5000
 
-    # generate rules for matching text in messages ahead of time for efficiency
-    logging.info('generating trigger rules...')
-    triggers = generate_triggers()
 
     # open the listening socket
     logging.info('opening listener socket on port {}...'.format(port))
@@ -123,6 +120,10 @@ bot = Bot.list().filter(name='RoboDaniel').first
 
 
 if __name__ == '__main__':
+    # generate rules for matching text in messages ahead of time for efficiency
+    logging.info('generating trigger rules...')
+    triggers = generate_triggers()
+
     # start listening and interpreting
     logging.info('launching robodaniel...')
-    listen()
+    listen(triggers)
