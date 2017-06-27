@@ -3,14 +3,17 @@
 # everything is returned in a tuple or a list, period!
 #
 
+import commands, os, re, requests
+import data.insults as insults
+from data.compliments import compliments
+from data.factoids import factoids
+from helpers import give
+from random import choice as rand
 
 def compliment(args, sender, sender_id, attachments, bot):
     '[person]: send someone a compliment!'
-    from data.compliments import compliments
-    from helpers import give
-    import random
 
-    compliment = random.choice(compliments) # choose a random compliment
+    compliment = rand(compliments) # choose a random compliment
 
     try:
         # attempt to extract target user from message
@@ -25,8 +28,6 @@ def compliment(args, sender, sender_id, attachments, bot):
 
 def help(args, sender, sender_id, attachments, bot):
     '[command]: show available factoids and commands or help for a specific command'
-    from data.factoids import factoids
-    import commands, re
 
     # get lists of all available factoids and commands
     factoid_list = list(factoids)
@@ -42,9 +43,6 @@ def help(args, sender, sender_id, attachments, bot):
 
 def insult(args, sender, sender_id, attachments, bot):
     '[person]: sendeth some lout a shakespearean fig!'
-    import data.insults as insults
-    from helpers import give
-    from random import choice as rand
     
     # construct a random insult
     insult = 'thou {} {} {}!'.format(rand(insults.part_1),
@@ -60,7 +58,6 @@ def insult(args, sender, sender_id, attachments, bot):
 
 def meme(args, sender, sender_id, attachments, bot):
     ': get a random viral meme from the last week off of imgur'
-    import os, random, requests
 
     memes = []
     headers = {'authorization': 'Client-ID ' + os.getenv('IMGUR_ID')}
@@ -71,7 +68,7 @@ def meme(args, sender, sender_id, attachments, bot):
         memes.extend(response.json()['data'])
 
     # choose a random meme from the list
-    image_url = random.choice(memes)['link']
+    image_url = rand(memes)['link']
 
     return [image_url]
 
