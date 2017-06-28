@@ -98,7 +98,7 @@ def listen():
             message = json.loads(data.decode('utf-8').split('\n')[-1])
 
             if message['sender_type'] == 'user':
-                logging.info('message received: {}'.format(message))
+                logging.debug('message received: {}'.format(message))
                 match_trigger(triggers, message) # try to match all messages against triggers
 
         except Exception:
