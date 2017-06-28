@@ -3,12 +3,14 @@
 # everything is returned in a tuple or a list, period!
 #
 
-import commands, os, re, requests
+import commands, markovify, os, re, requests
 import data.insults as insults
 from data.compliments import compliments
 from data.factoids import factoids
-from helpers import give
+from groupy import Group
+from helpers import *
 from random import choice as rand
+
 
 def compliment(args, sender, sender_id, attachments, bot):
     '[person]: send someone a compliment!'
@@ -90,3 +92,24 @@ def triggers(args, sender, sender_id, attachments, bot):
             patterns.append(rule.split()[0])
 
     return ['\n'.join(patterns)]
+
+def talk(args, sender, sender_id, attachments, bot):
+    ': say something'
+
+    group = Group.list().filter(id=bot.group_id).first
+
+    # fetch 300 recent messages
+    messages = group.messages()
+    for _ in range(2):
+        messages.extend(messages.older())
+
+    # extract all message text into one string
+    text = '\n'.join(m.text for m in messages if m.text)
+    # create markov model
+    text_model = markovify.Text(text)
+
+    response = [None]
+    while response == [None]:
+        response = [text_model.make_sentence(max_overlap_total=10)]
+
+    return response
