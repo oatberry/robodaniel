@@ -98,9 +98,9 @@ def talk(args, sender, sender_id, attachments, bot):
 
     group = Group.list().filter(id=bot.group_id).first
 
-    # fetch 300 recent messages
+    # fetch 400 recent messages
     messages = group.messages()
-    for _ in range(2):
+    for _ in range(3):
         messages.extend(messages.older())
 
     # extract all message text into one string
@@ -110,6 +110,6 @@ def talk(args, sender, sender_id, attachments, bot):
 
     response = [None]
     while response == [None]:
-        response = [text_model.make_sentence(max_overlap_total=10)]
+        response = [text_model.make_short_sentence(140)]
 
     return response
