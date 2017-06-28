@@ -3,17 +3,11 @@
 # everything is returned in a tuple or a list, period!
 #
 
-import commands, markovify, os, re, requests
-import data.insults as insults
-from data.compliments import compliments
-from data.factoids import factoids
-from groupy import Group
-from helpers import *
-from random import choice as rand
-
 
 def compliment(args, sender, sender_id, attachments, bot):
     '[person]: send someone a compliment!'
+    from data.compliments import compliments
+    from random import choice as rand
 
     compliment = rand(compliments) # choose a random compliment
 
@@ -30,6 +24,8 @@ def compliment(args, sender, sender_id, attachments, bot):
 
 def help(args, sender, sender_id, attachments, bot):
     '[command]: show available factoids and commands or help for a specific command'
+    import commands, re
+    from data.factoids import factoids
 
     # get lists of all available factoids and commands
     factoid_list = list(factoids)
@@ -37,7 +33,7 @@ def help(args, sender, sender_id, attachments, bot):
 
     if len(args) == 0:
         # return list of factoids and commands
-        return ['list of factoids: {}\nlist of commands: {}'.format(factoid_list, command_list)]
+        return [f'list of factoids: {factoid_list}\nlist of commands: {command_list}']
     else:
         # return help for a specific command
         return ['> !{} {}'.format(args[0], eval(args[0] + '.__doc__'))]
@@ -45,6 +41,9 @@ def help(args, sender, sender_id, attachments, bot):
 
 def insult(args, sender, sender_id, attachments, bot):
     '[person]: sendeth some lout a shakespearean fig!'
+    import data.insults as insults
+    from helpers import give
+    from random import choice as rand
     
     # construct a random insult
     insult = 'thou {} {} {}!'.format(rand(insults.part_1),
@@ -60,6 +59,8 @@ def insult(args, sender, sender_id, attachments, bot):
 
 def meme(args, sender, sender_id, attachments, bot):
     ': get a random viral meme from the last week off of imgur'
+    import os, requests
+    from random import choice as rand
 
     memes = []
     headers = {'authorization': 'Client-ID ' + os.getenv('IMGUR_ID')}
@@ -95,6 +96,8 @@ def triggers(args, sender, sender_id, attachments, bot):
 
 def talk(args, sender, sender_id, attachments, bot):
     ': say something'
+    import markovify
+    from groupy import Group
 
     group = Group.list().filter(id=bot.group_id).first
 
