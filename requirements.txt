@@ -3,4 +3,5 @@
 #
 
 GroupyAPI
+markovify
 requests
