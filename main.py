@@ -37,9 +37,10 @@ def match_trigger(triggers, message):
         for rule in triggers:
             if rule[0].match(message['text']):
                 # response is triggered
+                logging.info('trigger matched: "{}"'.format(message['text']))
                 response = [rule[1]]
                 break
-    
+
     if response:
         # we have a response to print!
         logging.info('sending response: "{}"'.format(response))
