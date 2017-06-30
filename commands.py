@@ -33,7 +33,8 @@ def help(args, sender, sender_id, attachments, bot):
 
     if len(args) == 0:
         # return list of factoids and commands
-        return [f'list of factoids: {factoid_list}\nlist of commands: {command_list}']
+        return [f'list of factoids: {factoid_list}\n'
+                f'list of commands: {command_list}']
     else:
         # return help for a specific command
         return ['> !{} {}'.format(args[0], eval(args[0] + '.__doc__'))]
