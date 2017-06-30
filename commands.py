@@ -64,7 +64,7 @@ def meme(args, sender, sender_id, attachments, bot):
     from random import choice as rand
 
     memes = []
-    headers = {'authorization': 'Client-ID ' + os.getenv('IMGUR_ID')}
+    headers = {'authorization': 'Client-ID a022618f15e97a4'}
 
     for i in range(3): # fetch 3 'pages' of memes
         url = 'https://api.imgur.com/3/g/memes/viral/week/' + str(i)
