@@ -60,7 +60,7 @@ def insult(args, sender, sender_id, attachments, bot):
 
 def meme(args, sender, sender_id, attachments, bot):
     ': get a random viral meme from the last week off of imgur'
-    import os, requests
+    import requests
     from random import choice as rand
 
     memes = []
@@ -72,7 +72,16 @@ def meme(args, sender, sender_id, attachments, bot):
         memes.extend(response.json()['data'])
 
     # choose a random meme from the list
-    image_url = rand(memes)['link']
+    meme = rand(memes)
+
+    # if fetched meme is in fact an album, choose a random image
+    if meme['is_album']:
+        url = 'https://api.imgur.com/3/album/{}/images'.format(meme['id'])
+        response = requests.request("GET", url, headers=headers)
+        memes = response.json()['data']
+        meme = rand(memes)
+
+    image_url = 'https://imgur.com/' + meme['id']
 
     return [image_url]
 
