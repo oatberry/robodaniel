@@ -3,8 +3,9 @@
 #
 
 factoids = {
-        r'hello':       r'hello to you too!',
-        r'good night':  r'good night, love.',
-        r'daniel':      r'is the best',
-        r'cupcakes':    r"adam's fondest memory",
+        'hello':        'hello to you too!',
+        'good night':   'good night, love.',
+        'daniel':       'is the best',
+        'cupcakes':     "adam's fondest memory",
+        'ping':         'pong',
 }
