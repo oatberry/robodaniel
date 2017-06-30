@@ -62,11 +62,11 @@ def interpret(message):
     elif command.split()[0] in dir(commands):
         # run a function from `commands` with arguments
         args = command.split()
-        return getattr(commands, args[0])(args[1:],                 # command and  command arguments
-                                          message['name'],          # nickname of sender
-                                          message['user_id'],       # user id of sender
-                                          message['attachments'],   # attachments of message
-                                          bot)                      # bot object
+        return getattr(commands, args[0])(args=args[1:],
+                                          sender=message['name'],
+                                          sender_id=message['user_id'],
+                                          attachments=message['attachments'],
+                                          bot=bot)
     else:
         logging.warning('invalid command: {}'.format(command))
         return False
