@@ -4,12 +4,12 @@
 #
 
 
-def compliment(args, sender, sender_id, attachments, bot):
+def compliment(args, sender, sender_id, attachments, group, bot):
     '[person]: send someone a compliment!'
     from data.compliments import compliments
-    from random import choice as rand
+    import helpers, random
 
-    compliment = rand(compliments) # choose a random compliment
+    compliment = random.choice(compliments) # choose a random compliment
 
     try:
         # attempt to extract target user from message
@@ -19,17 +19,19 @@ def compliment(args, sender, sender_id, attachments, bot):
         return [compliment]
 
     # use give() helper function to construct a groupme mention
-    return give(user_id, compliment, bot)
+    return helpers.give(user_id, compliment, bot)
 
 
-def help(args, sender, sender_id, attachments, bot):
+def help(args, sender, sender_id, attachments, group, bot):
     '[command]: show available factoids and commands or help for a specific command'
     import commands, re
     from data.factoids import factoids
 
+    r = re.compile('^__')
+
     # get lists of all available factoids and commands
     factoid_list = list(factoids)
-    command_list = [i for i in dir(commands) if not re.match('^__', i)]
+    command_list = [i for i in dir(commands) if not r.match(i)]
 
     if len(args) == 0:
         # return list of factoids and commands
@@ -40,28 +42,26 @@ def help(args, sender, sender_id, attachments, bot):
         return ['> !{} {}'.format(args[0], eval(args[0] + '.__doc__'))]
 
 
-def insult(args, sender, sender_id, attachments, bot):
+def insult(args, sender, sender_id, attachments, group, bot):
     '[person]: sendeth some lout a shakespearean fig!'
     import data.insults as insults
-    from helpers import give
-    from random import choice as rand
+    import helpers, random
     
     # construct a random insult
-    insult = 'thou {} {} {}!'.format(rand(insults.part_1),
-                                     rand(insults.part_2),
-                                     rand(insults.part_3))
+    insult = 'thou {} {} {}!'.format(random.choice(insults.part_1),
+                                     random.choice(insults.part_2),
+                                     random.choice(insults.part_3))
     try:
         user_id = attachments[0]['user_ids'][0]
     except:
         return [insult] # send an insult anyway if no name is given
 
-    return give(user_id, insult, bot)
+    return helpers.give(user_id, insult, bot)
 
 
-def meme(args, sender, sender_id, attachments, bot):
+def meme(args, sender, sender_id, attachments, group, bot):
     ': get a random viral meme from the last week off of imgur'
-    import requests
-    from random import choice as rand
+    import random, requests
 
     memes = []
     headers = {'authorization': 'Client-ID a022618f15e97a4'}
@@ -72,21 +72,19 @@ def meme(args, sender, sender_id, attachments, bot):
         memes.extend(response.json()['data'])
 
     # choose a random meme from the list
-    meme = rand(memes)
+    meme = random.choice(memes)
 
-    # if fetched meme is in fact an album, choose a random image
+    # if fetched meme is in fact an album, choose a random image from the album
     if meme['is_album']:
         url = 'https://api.imgur.com/3/album/{}/images'.format(meme['id'])
         response = requests.request("GET", url, headers=headers)
         memes = response.json()['data']
-        meme = rand(memes)
+        meme = random.choice(memes)
 
-    image_url = 'https://imgur.com/' + meme['id']
-
-    return [image_url]
+    return ['https://imgur.com' + meme['id']]
 
 
-def rev(args, sender, sender_id, attachments, bot):
+def rev(args, sender, sender_id, attachments, group, bot):
     '<string>: reverse a string of text'
 
     # since the command sent by the user is a list of words, we have to reverse
@@ -94,7 +92,7 @@ def rev(args, sender, sender_id, attachments, bot):
     return [' '.join(i[::-1] for i in args[::-1])]
 
 
-def triggers(args, sender, sender_id, attachments, bot):
+def triggers(args, sender, sender_id, attachments, group, bot):
     ': list trigger rules'
     
     patterns = []
@@ -104,7 +102,7 @@ def triggers(args, sender, sender_id, attachments, bot):
 
     return ['\n'.join(patterns)]
 
-def talk(args, sender, sender_id, attachments, bot):
+def talk(args, sender, sender_id, attachments, group, bot):
     ': say something'
     import markovify
     from groupy import Group
