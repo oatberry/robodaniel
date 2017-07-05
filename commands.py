@@ -81,7 +81,7 @@ def meme(args, sender, sender_id, attachments, group, bot):
         memes = response.json()['data']
         meme = random.choice(memes)
 
-    return ['https://imgur.com' + meme['id']]
+    return ['https://imgur.com/' + meme['id']]
 
 
 def rev(args, sender, sender_id, attachments, group, bot):
