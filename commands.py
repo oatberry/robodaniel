@@ -3,7 +3,10 @@
 # everything is returned in a tuple or a list, period!
 #
 
+commands = {}
+command = lambda f: commands.setdefault(f.__name__, f)
 
+@command
 def compliment(args, sender, sender_id, attachments, group, bot):
     '[person]: send someone a compliment!'
     from data.compliments import compliments
@@ -22,6 +25,7 @@ def compliment(args, sender, sender_id, attachments, group, bot):
     return helpers.give(user_id, compliment, bot)
 
 
+@command
 def help(args, sender, sender_id, attachments, group, bot):
     '[command]: show available factoids and commands or help for a specific command'
     import commands, re
@@ -42,6 +46,7 @@ def help(args, sender, sender_id, attachments, group, bot):
         return ['> !{} {}'.format(args[0], eval(args[0] + '.__doc__'))]
 
 
+@command
 def insult(args, sender, sender_id, attachments, group, bot):
     '[person]: sendeth some lout a shakespearean fig!'
     import data.insults as insults
@@ -59,6 +64,7 @@ def insult(args, sender, sender_id, attachments, group, bot):
     return helpers.give(user_id, insult, bot)
 
 
+@command
 def meme(args, sender, sender_id, attachments, group, bot):
     ': get a random viral meme from the last week off of imgur'
     import random, requests
@@ -84,6 +90,7 @@ def meme(args, sender, sender_id, attachments, group, bot):
     return ['https://imgur.com/' + meme['id']]
 
 
+@command
 def rev(args, sender, sender_id, attachments, group, bot):
     '<string>: reverse a string of text'
 
@@ -92,6 +99,7 @@ def rev(args, sender, sender_id, attachments, group, bot):
     return [' '.join(i[::-1] for i in args[::-1])]
 
 
+@command
 def triggers(args, sender, sender_id, attachments, group, bot):
     ': list trigger rules'
     
@@ -102,6 +110,7 @@ def triggers(args, sender, sender_id, attachments, group, bot):
 
     return ['\n'.join(patterns)]
 
+@command
 def talk(args, sender, sender_id, attachments, group, bot):
     ': say something'
     import markovify
