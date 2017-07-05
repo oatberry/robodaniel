@@ -4,7 +4,14 @@
 #   intended to be run under heroku
 #
 
-import commands, json, logging, os, re, socket, sys, time
+import commands
+import json
+import logging
+import os
+import re
+import socket
+import sys
+import time
 from data.factoids import factoids
 from groupy import Bot, Group, config
 
@@ -66,6 +73,7 @@ def interpret(message):
                                           sender=message['name'],
                                           sender_id=message['user_id'],
                                           attachments=message['attachments'],
+                                          group=group,
                                           bot=bot)
     else:
         logging.warning('invalid command: {}'.format(command))
