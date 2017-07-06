@@ -5,15 +5,20 @@
 
 def compliment(args, sender, sender_id, attachments, bot):
     '[person]: send someone a compliment!'
-    from data.compliments import compliments
     import helpers, random
-
-    compliment = random.choice(compliments) # choose a random compliment
+    
+    # choose a random compliment
+    try:
+        compliment = random.choice(bot.compliments)
+    except AttributeError:
+        with open('data/compliments.txt') as compliments_file:
+            bot.compliments = [line for line in compliments_file]
+        compliment = random.choice(bot.compliments)
 
     try:
         # attempt to extract target user from message
         user_id = attachments[0]['user_ids'][0]
-    except:
+    except IndexError:
         # send a compliment anyway if no name is given
         return [compliment]
 
@@ -46,7 +51,7 @@ def insult(args, sender, sender_id, attachments, bot):
                                      random.choice(insults.part_3))
     try:
         user_id = attachments[0]['user_ids'][0]
-    except:
+    except IndexError:
         return [insult] # send an insult anyway if no name is given
 
     return helpers.give(user_id, insult, bot.group)
