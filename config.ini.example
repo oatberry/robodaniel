@@ -1,0 +1,7 @@
+# RoboDaniel example config file
+
+[RoboDaniel]
+APIKey = 0123456789abcdef
+BotID = fedcba9876543210
+BindAddress = 0.0.0.0
+ListenPort = 5000
