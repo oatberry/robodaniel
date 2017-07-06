@@ -4,7 +4,6 @@ import importlib
 import logging
 import re
 from data import commands
-from data import factoids
 from groupy import Bot as GroupyBot
 from groupy import Group
 from groupy import config
@@ -27,28 +26,26 @@ class Bot:
         """gather !command functions and factoids into dicts"""
         self.logger.info('gathering !commands...')
 
-        # reload modules for when !reload is called
+        # reload command module for when !reload is called
         importlib.reload(commands)
-        importlib.reload(factoids)
 
         r = re.compile('^__')
         self.command_dict = {c: getattr(commands, c)
                              for c in dir(commands)
                              if not r.match(c)}
 
-        self.factoids = factoids.factoids
+        # gather factoids
+        with open('data/factoids.txt') as factoids_file:
+            self.factoids = {f.split()[0]: ' '.join(f.split()[1:])
+                             for f in factoids_file}
         
     def generate_triggers(self):
         """generate message trigger rules"""
         self.logger.info('generating trigger rules...')
-        self.triggers = []
 
         with open('data/triggers.txt') as triggers_file:
-            for rule in triggers_file:
-                rule = rule.split()
-                pattern = re.compile(rule[0])
-                response = ' '.join(rule[1:])
-                self.triggers.append((pattern, response))
+            self.triggers = [(re.compile(t.split()[0]), ' '.join(t.split()[1:]))
+                             for t in triggers_file]
 
     def interpret_command(self, message):
         """decide what to do with a "!command" message"""
