@@ -84,7 +84,7 @@ def listen():
     "listen for new messages in the bot's groupme channel"
 
     # heroku provides the port variable for us
-    port = int(os.getenv('PORT')) or 5000
+    port = 3000
 
     # generate rules for matching text in messages ahead of time for efficiency
     logging.info('generating trigger rules...')
@@ -94,7 +94,7 @@ def listen():
     logging.info('opening listener socket on port {}...'.format(port))
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    s.bind((socket.gethostname(), port))
+    s.bind(('0.0.0.0', port))
     s.listen(10)
 
     # attempt to extract chat message text from received data
