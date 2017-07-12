@@ -108,10 +108,10 @@ def talk(args, sender, sender_id, attachments, bot):
     ': say something'
     import markovify
 
-    # fetch 400 recent messages
+    # fetch 500 recent messages
     messages = bot.group.messages()
-    for _ in range(3):
-        messages.extend(messages.older())
+    for _ in range(4):
+        messages.iolder()
 
     # extract all message text into one string
     text = '\n'.join(m.text for m in messages if m.text)
