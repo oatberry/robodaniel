@@ -4,6 +4,7 @@ import importlib
 import logging
 import re
 from data import commands
+from datetime import datetime
 from groupy import Bot as GroupyBot
 from groupy import Group
 from groupy import config
@@ -16,6 +17,8 @@ class Bot:
         config.API_KEY = api_key
         self.bot = GroupyBot.list().filter(bot_id=bot_id).first
         self.group = Group.list().filter(id=self.bot.group_id).first
+
+        self.chatlog = open('logs/{}.log'.format(self.group.name), 'a+')
 
         self.logger = logging.getLogger(self.bot.name)
 
@@ -91,6 +94,12 @@ class Bot:
             # we have a response to send!
             logging.info('sending response: "{}"'.format(response))
             self.post(*response)
+
+    def logmsg(self, message):
+        """log a chat message to the appropriate logfile"""
+        timestamp = datetime.fromtimestamp(message['created_at']).isoformat()
+        line = '{} {}: {}'.format(timestamp, message['name'], message['text'])
+        print(line, file=self.chatlog)
 
     def post(self, *message):
         """post a message with optional attachments"""

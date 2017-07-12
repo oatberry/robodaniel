@@ -25,20 +25,30 @@ def listen(address, port, bot):
     s.listen(10)
 
     # attempt to extract chat message text from received data
-    while True:
-        (connection, address) = s.accept()
+    try:
+        while True:
+            (connection, address) = s.accept()
 
-        try:
-            time.sleep(0.3)
-            data = connection.recv(4096)
-            message = json.loads(data.decode('utf-8').split('\n')[-1])
+            try:
+                time.sleep(0.3)
+                data = connection.recv(4096)
+                message = json.loads(data.decode('utf-8').split('\n')[-1])
 
-            if message['sender_type'] == 'user':
-                logging.debug('message received: {}'.format(message))
-                bot.match_trigger(message) # try to match all messages against triggers
+                # log message to group log
+                if message.get('text'):
+                    bot.logmsg(message)
 
-        except Exception:
-            pass
+                if message['sender_type'] == 'user':
+                    logging.debug('message received: {}'.format(message))
+                    bot.match_trigger(message) # try to match all messages against triggers
+
+            except Exception:
+                pass
+
+    except KeyboardInterrupt:
+        logging.info('cleaning up...')
+        bot.chatlog.close()
+        sys.exit()
 
 
 # set up logging
