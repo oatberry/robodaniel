@@ -106,20 +106,19 @@ def triggers(args, sender, sender_id, attachments, bot):
 
 def talk(args, sender, sender_id, attachments, bot):
     ': say something'
-    import markovify
+    import markovify, re
 
-    # fetch 500 recent messages
-    messages = bot.group.messages()
-    for _ in range(4):
-        messages.iolder()
+    r = re.compile(r'.*: .*')
 
-    # extract all message text into one string
-    text = '\n'.join(m.text for m in messages if m.text)
-    # create markov model
+    with open('logs/{}.log'.format(bot.group.name)) as f:
+        lines = f.readlines()
+    
+    # pull all message text from the chatlog
+    lines = (l.split(': ', 1)[1] for l in lines if r.match(l))
+    text = ' '.join(lines)
+
+    # generate the sentence
     text_model = markovify.Text(text)
+    response = text_model.make_sentence()
 
-    response = [None]
-    while response == [None]:
-        response = [text_model.make_short_sentence(140)]
-
-    return response
+    return [response]
