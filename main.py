@@ -24,8 +24,8 @@ def listen(address, port, bot):
     s.bind((address, port))
     s.listen(10)
 
-    # attempt to extract chat message text from received data
     try:
+        # listen for group messages
         while True:
             (connection, address) = s.accept()
 
@@ -38,9 +38,11 @@ def listen(address, port, bot):
                 if message.get('text'):
                     bot.logmsg(message)
 
+                # if message was sent by a user (eg, not system or bot)
+                # try to match it against triggers/commands
                 if message['sender_type'] == 'user':
                     logging.debug('message received: {}'.format(message))
-                    bot.match_trigger(message) # try to match all messages against triggers
+                    bot.match_trigger(message)
 
             except Exception:
                 pass
@@ -55,7 +57,7 @@ def listen(address, port, bot):
 logging.basicConfig(level=logging.INFO, format="--> %(levelname)s: %(message)s")
 logging.getLogger('requests').setLevel(logging.WARNING) # quiet down, requests!
 
-# get config settings
+# parse config.ini
 parser = configparser.ConfigParser()
 parser.read('config.ini')
 config = parser['RoboDaniel']
