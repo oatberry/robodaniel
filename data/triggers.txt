@@ -1,3 +1,5 @@
 (?i).*(shit|fuck|damn|bitch|crap|piss|darn|ass).*   Watch yo' profamity!
 (?i)(?:^|\.\s)I'm.*                                 not only that, you're terrific!
 (?i)oh\smy                                          http://imgur.com/TBo68Vx
+(?i)brady                                           filthy commie!
+(?i)communism                                       better dead than red!
