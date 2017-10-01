@@ -97,6 +97,16 @@ def rev(args, sender, sender_id, attachments, bot):
     return [' '.join(i[::-1] for i in args[::-1])]
 
 
+def shush(args, sender, sender_id, attachments, bot):
+    '<int>: do nothing for a number of minutes'
+    import time
+
+    minutes = int(args[0])
+    bot.post('>sleeping for {} minutes...'.format(minutes))
+    time.sleep(minutes * 60)
+    return ['hi.']
+
+
 def triggers(args, sender, sender_id, attachments, bot):
     ': list trigger rules'
     patterns = [p.pattern for p, _ in bot.triggers]
@@ -108,12 +118,11 @@ def talk(args, sender, sender_id, attachments, bot):
     ': say something'
     import markovify, re
 
-    r = re.compile(r'.*: .*')
-
     with open('logs/{}.log'.format(bot.group.name)) as f:
         lines = f.readlines()
     
     # pull all message text from the chatlog
+    r = re.compile(r'.*: .*')
     lines = (l.split(': ', 1)[1] for l in lines if r.match(l))
     text = ' '.join(lines)
 
