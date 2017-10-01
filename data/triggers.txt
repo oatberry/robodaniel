@@ -1,3 +1,3 @@
-(?i).*(shit|fuck|damn|bitch|crap|piss|darn|ass).*   http://imgur.com/K3e2x2N
+(?i).*(shit|fuck|damn|bitch|crap|piss|darn|ass).*   Watch yo' profamity!
 (?i)(?:^|\.\s)I'm.*                                 not only that, you're terrific!
 (?i)oh\smy                                          http://imgur.com/TBo68Vx
